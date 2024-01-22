@@ -1,63 +1,25 @@
-# Hardhat template 
+# IMT vs SMT
 
-Template hardhat repository for ad-hoc smart contracts development.
+This is an opensource project to compare the gas usage of Incremental Merkle Tree (IMT) and Sparse Merkle Tree inside Circom zero knowledge circuits.
 
-### How to use
+## What
 
-The template works out of the box. To clean up the repo, you may need to delete the mock contracts, tests and migration files.
+You will find the reference implementation of both trees in Solidity language inside `contracts` folder. The corresponding Circom circuits reside inside `circuits` folder.
 
-#### Compilation
+The circuits verify inclusion ZKP that the element belongs to the tree. Both IMT and SMT are built on-chain with full IMT reconstructed in the tests.
 
-To compile the contracts, use the next script:
+You may find more information about the IMT [here](https://www.linkedin.com/posts/artemchystiakov_ethereum-datastructure-activity-7065039156019703808-VjhO/) and SMT [here](https://docs.iden3.io/publications/pdfs/Merkle-Tree.pdf).
 
-```bash
-npm run compile
-```
+## Results
 
-#### Test
+The gas usage of trees of size of 10 (1024 leaves) and 20 (1048576 leaves) has been recorded. Full results can be seen [here](https://docs.google.com/spreadsheets/d/1zZkwjjOjn1fRJGJ40Jw1GeVGpBqGMGih-jd-uBcP3Lo/edit?usp=sharing).
 
-To run the tests, execute the following command:
+![Add Element Function](https://github.com/Arvolear/IMT-vs-SMT/assets/47551140/874972d8-ba11-4dfe-93da-061cab36c035)
 
-```bash
-npm run test
-```
+![Verify ZKP Function](https://github.com/Arvolear/IMT-vs-SMT/assets/47551140/750b5b45-9931-4030-8301-2aa8ec0ba121)
 
-Or to see the coverage, run:
+We can see that IMT is less expensive to maintain than SMT (9 times less expensive), but more expensive to prove (6 times more expensive). So choose your data structure wisely.
 
-```bash
-npm run coverage
-```
+## License
 
-#### Local deployment
-
-To deploy the contracts locally, run the following commands (in the different terminals):
-
-```bash
-npm run private-network
-npm run deploy-localhost
-```
-
-#### Bindings
-
-The command to generate the bindings is as follows:
-
-```bash
-npm run generate-types
-```
-
-> See the full list of available commands in the `package.json` file.
-
-### Integrated plugins
-
-- Hardhat official `ethers` + `ethers-v6`
-- [`Typechain`](https://www.npmjs.com/package/@typechain/hardhat)
-- [`hardhat-migrate`](https://www.npmjs.com/package/@solarity/hardhat-migrate), [`hardhat-markup`](https://www.npmjs.com/package/@solarity/hardhat-markup), [`hardhat-gobind`](https://www.npmjs.com/package/@solarity/hardhat-gobind)
-- [`hardhat-contract-sizer`](https://www.npmjs.com/package/hardhat-contract-sizer)
-- [`hardhat-gas-reporter`](https://www.npmjs.com/package/hardhat-gas-reporter)
-- [`solidity-coverage`](https://www.npmjs.com/package/solidity-coverage)
-
-### Other niceties
-
-- The template comes with presetup `prettier` and `solhint` that lint the project via `husky` before compilation hook.
-- The `.env.example` file is provided to check what is required as ENVs
-- Preinstalled `@openzeppelin/contracts` and `@solarity/solidity-lib`
+The work is published under GPL-3.0 license.

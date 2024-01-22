@@ -6,6 +6,7 @@ import { poseidonHash, getBytes32PoseidonHash } from "./helpers/poseidon-hash";
 import { getRoot, getPositionalProof, buildFullTree, getZKP } from "./helpers/imt-helper";
 
 import { IMTChecker } from "@ethers-v6";
+import { ZERO_ADDR } from "@/scripts/utils/constants";
 
 describe("IMT", () => {
   let imtChecker: IMTChecker;
@@ -19,13 +20,15 @@ describe("IMT", () => {
       },
     });
 
-    const IMTVerifier = await ethers.getContractFactory("IMTVerifier");
+    const IMTVerifier = await ethers.getContractFactory("IMTVerifier20");
     const imtVerifier = await IMTVerifier.deploy();
 
     imtChecker = await IMTChecker.deploy(await imtVerifier.getAddress());
+
+    // imtChecker = await IMTChecker.deploy(ZERO_ADDR);
   });
 
-  it("should build the tree", async () => {
+  it.only("should build the tree", async () => {
     let leaves: string[] = [];
 
     for (let i = 0; i < 50; i++) {
@@ -48,11 +51,11 @@ describe("IMT", () => {
     expect(await imtChecker.getRoot()).to.equal(root);
   });
 
-  it.only("should prove the tree", async () => {
+  it("should prove the tree", async () => {
     let leaves: string[] = [];
     let leavesData: string[] = [];
 
-    for (let i = 0; i < 25; i++) {
+    for (let i = 0; i < 20; i++) {
       const rand = ethers.hexlify(ethers.randomBytes(30));
 
       await imtChecker.addElement(rand);
@@ -61,7 +64,7 @@ describe("IMT", () => {
       leaves.push(getBytes32PoseidonHash(rand));
     }
 
-    const imt = buildFullTree(poseidonHash, leaves, 20);
+    const imt = buildFullTree(poseidonHash, leaves, 10);
 
     const root = getRoot(imt);
 

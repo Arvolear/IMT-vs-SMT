@@ -164,4 +164,4 @@ template SMTVerifier(nLevels) {
     levels[0].root === root;
 }
 
-component main {public [root]} = SMTVerifier(20);
+component main {public [root]} = SMTVerifier(10);

@@ -73,4 +73,4 @@ template IMTVerifier(levels){
   root === merkletree.root;
 }
 
-component main {public [root]} = IMTVerifier(20);
+component main {public [root]} = IMTVerifier(10);

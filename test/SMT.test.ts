@@ -19,7 +19,7 @@ describe("SMT", () => {
       },
     });
 
-    const SMTVerifier = await ethers.getContractFactory("SMTVerifier");
+    const SMTVerifier = await ethers.getContractFactory("SMTVerifier20");
     const smtVerifier = await SMTVerifier.deploy();
 
     smtChecker = await SMTChecker.deploy(await smtVerifier.getAddress());
@@ -27,7 +27,7 @@ describe("SMT", () => {
     // smtChecker = await SMTChecker.deploy(ZERO_ADDR);
   });
 
-  it("should build the tree", async () => {
+  it.only("should build the tree", async () => {
     let leaves: string[] = [];
 
     for (let i = 0; i < 50; i++) {
@@ -48,10 +48,10 @@ describe("SMT", () => {
     );
   });
 
-  it.only("should prove the tree", async () => {
+  it("should prove the tree", async () => {
     let leaves: string[] = [];
 
-    for (let i = 0; i < 25; i++) {
+    for (let i = 0; i < 20; i++) {
       const rand = ethers.hexlify(ethers.randomBytes(30));
 
       await smtChecker.addElement(rand, rand);
